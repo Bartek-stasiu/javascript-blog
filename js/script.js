@@ -32,8 +32,9 @@ const optArticleSelector = '.post',
   optCloudClassPrefix = 'tag-size-',
   optAuthorListSelector = '.list .authors';
 
+
 function titleClickHandler(event){
-  event.preventDefault();
+  event.preventDefault(); /* zaczynamy od góry strony */
   const clickedElement = this;
 
   /* remove class 'active' from all article links  */
@@ -55,20 +56,19 @@ function titleClickHandler(event){
   /* get 'href' attribute from the clicked link */
   const articleSelector = clickedElement.getAttribute('href');
 
-
   /* find the correct article using the selector (value of 'href' attribute) */
   const targetArticle = document.querySelector(articleSelector);
-
 
   /* add class 'active' to the correct article */
   targetArticle.classList.add('active');
 }
 
+
 function generateTitleLinks(customSelector = ''){
 
   /* remove contents of titleList */
   const titleList = document.querySelector(optTitleListSelector);
-  titleList.innerHTML = '';
+  titleList.innerHTML = ''; /* czyszczenie */
 
   /* for each article */
   const articles = document.querySelectorAll(optArticleSelector + customSelector);
@@ -86,16 +86,13 @@ function generateTitleLinks(customSelector = ''){
     const linkHTMLData = {id: articleId, title: articleTitle};
     const linkHTML = templatesArticle.articleLink(linkHTMLData);
 
-
     /* insert link into titleList */
-    titleList.insertAdjacentHTML('beforeend', linkHTML);
+    titleList.insertAdjacentHTML('beforeend', linkHTML);  /* dodanie bez powtarzania */
     html = html + linkHTML;
   }
 
     /* insert link into html variable */
-
-  titleList.innerHTML = html;
-
+  
   const links = document.querySelectorAll('.titles a');
   for(let link of links){
 
