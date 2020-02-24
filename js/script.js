@@ -92,7 +92,7 @@ function generateTitleLinks(customSelector = ''){
   }
 
     /* insert link into html variable */
-  
+
   const links = document.querySelectorAll('.titles a');
   for(let link of links){
 
@@ -134,6 +134,7 @@ function calculateTagClass(count, params) {
 function generateTags(){
   /* [NEW] create a new variable allTags with an empty object */
   let allTags = {};
+
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
 
@@ -153,14 +154,15 @@ function generateTags(){
 
     /* START LOOP: for each tag */
     for(let tag of articleTagsArray){
+
       /* generate HTML of the link */
       const linkHTMLData = {tagId: tag, tagName: tag};
       const linkHTML = templatesTag.tagLink(linkHTMLData);
 
       /* add generated code to html variable */
-      titleList.insertAdjacentHTML('beforeend', linkHTML);
-      html = html + linkHTML;
 
+      html = html + linkHTML;
+      console.log(html)
       /* [NEW] check if this link is NOT already in allTags */
       if (!allTags.hasOwnProperty(tag)) {
 
@@ -174,7 +176,7 @@ function generateTags(){
     /* END LOOP: for each tag */
   }
     /* insert HTML of all the links into the tags wrapper */
-    titleList.innerHTML = html;
+    articleTagsWraper.innerHTML = html;
   /* END LOOP: for every article: */
 }
 /* [NEW] find list of tags in right column */
