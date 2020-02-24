@@ -104,7 +104,6 @@ generateTitleLinks();
 
 /* Function calculateTagsParams */
 function calculateTagsParams(tags) {
-  console.log('tags: ', tags);
 
   const params = {
     max: 0,
@@ -112,7 +111,6 @@ function calculateTagsParams(tags) {
   };
 
   for (let tag in tags) {
-    console.log(tag + ' is used ' + tags[tag] + ' times');
     params.max = Math.floor(Math.max(tags[tag], params.max));
     params.min = Math.floor(Math.min(tags[tag], params.min));
   }
@@ -126,7 +124,7 @@ function calculateTagClass(count, params) {
   const normalizedMax = params.max - params.min;
   const percentage = normalizedCount / normalizedMax;
   const classNumber = Math.floor( percentage * (optCloudClassCount - 1) + 1 );
-  console.log('classNumber: ', classNumber);
+
 
   return optCloudClassPrefix + classNumber;
 }
@@ -160,9 +158,8 @@ function generateTags(){
       const linkHTML = templatesTag.tagLink(linkHTMLData);
 
       /* add generated code to html variable */
-
       html = html + linkHTML;
-      console.log(html)
+
       /* [NEW] check if this link is NOT already in allTags */
       if (!allTags.hasOwnProperty(tag)) {
 
@@ -177,13 +174,14 @@ function generateTags(){
   }
     /* insert HTML of all the links into the tags wrapper */
     articleTagsWraper.innerHTML = html;
+
   /* END LOOP: for every article: */
 }
 /* [NEW] find list of tags in right column */
  const tagList = document.querySelector('.tags');
 
  const tagsParams = calculateTagsParams(allTags);
-  console.log('tagsParams', tagsParams);
+
 
 /* [NEW] create variable for all links HTML code */
 const allTagsData = {tags: []};
@@ -205,33 +203,44 @@ generateTags();
 
 
 function tagClickHandler(event){
+
   /* prevent default action for this event */
   event.preventDefault();
+
   /* make new constant named "clickedElement" and give it the value of "this" */
   const clickedElement = this;
+
   /* make a new constant "href" and read the attribute "href" of the clicked element */
   const href = clickedElement.getAttribute('href');
+
   /* make a new constant "tag" and extract tag from the "href" constant */
   const tag = href.replace('#tag-', '');
+
   /* find all tag links with class active */
   const activeTagLinks = document.querySelectorAll('a.active[href^="#tag-"]');
+
   /* START LOOP: for each active tag link */
   for (let activeTagLink of activeTagLinks) {
+
     /* remove class active */
     activeTagLink.classList.remove('active');
   /* END LOOP: for each active tag link */
 }
   /* find all tag links with "href" attribute equal to the "href" constant */
   const tagLinks = document.querySelectorAll('a.active[href^="#tag-"]');
+
   /* START LOOP: for each found tag link */
   for (let tagLink of tagLinks) {
+
     /* add class active */
     tagLink.classList.add('active');
+
   /* END LOOP: for each found tag link */
 }
   /* execute function "generateTitleLinks" with article selector as argument */
   generateTitleLinks('[data-tags~="' + tag + '"]');
 }
+
 
 function addClickListenersToTags(){
   /* find all links to tags */
@@ -247,24 +256,24 @@ function addClickListenersToTags(){
 addClickListenersToTags();
 
 
-/* Function generateAuthors */
 function generateAuthors() {
 
   let allAuthors = {};
+
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
 
   /* START LOOP: for every article: */
   for (let article of articles) {
+
     /* find authors wrapper */
-    const authorList = article.querySelector(optarticleAuthorSelector);
+    const authorWrapper = article.querySelector(optarticleAuthorSelector);
 
     /* make html variable with empty string */
     let html = '';
 
     /* get authors from data-author attribute */
-    const articleAuthor = article.getAttribute('data-authors');
-
+    const articleAuthor = article.getAttribute('data-author');
 
     /* generate HTML of the link */
     const linkHTMLData = {id: articleAuthor, title: articleAuthor};
@@ -272,6 +281,9 @@ function generateAuthors() {
 
     /* add generated code to html variable */
     html = html + linkHTML;
+
+    /* insert HTML of all the links into the authors wrapper */
+    //authorsWrapper.innerHTML = html;
 
     /* [NEW] check if this link is NOT already in allTags */
     if(!allAuthors[articleAuthor]){
@@ -285,7 +297,7 @@ function generateAuthors() {
   const allAuthorsData = {authors: []};
 
   for(let author in allAuthors){
-    console.log(allAuthors);
+
     allAuthorsData.authors.push({
       author: author,
       count: allAuthors[author]
@@ -312,39 +324,31 @@ function authorClickHandler(event) {
   const author = href.replace('#author-', '');
 
   /* [DONE] find all author links with class active */
-  const activeLinks = document.querySelectorAll('a.active[href^="#author-"]');
+  const activeLinks = document.querySelectorAll('a[href="' + href + '"]');
 
   /* [DONE] START LOOP: for each active author link */
   for(let activeLink of activeLinks){
 
-    /* remove class active */
-    activeLink.classList.remove('active');
+    /* add class active */
+    activeLink.classList.add('active');
 
     /*  END LOOP: for each active author link */
   }
 
-  /* find all author links with "href" attribute equal to the "href" constant */
-  const tagLinks = document.querySelectorAll('a.active[href^="#author-"]');
+  /* function "generateTitleLinks" with article selector */
+  generateTitleLinks('[data-author="' + author + '"]');
 
-  /* START LOOP: for each found author link */
-  for(let tagLink of tagLinks){
+  /*  remove active class */
+  removeClassActive('a.active[href^="#tag-"]');
 
-    /* add class active */
-    tagLink.classList.add('active');
-
-    /* END LOOP: for each found author link */
   }
 
-  /* execute function "generateTitleLinks" with article selector as argument */
-  generateTitleLinks('[data-authors="' + author + '"]');
-
-}
 
 function addClickListenersToAuthors() {
 
   /* [DONE] find all links to authors */
-  const links = document.querySelectorAll('.authors a');
-
+  const links = document.querySelectorAll('a[href^="#author-"]');
+  console.log(links);
   /* [DONE] START LOOP: for each link */
   for (let link of links) {
 
