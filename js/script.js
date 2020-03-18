@@ -28,6 +28,7 @@ const optArticleSelector = '.post',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',
   optarticleAuthorSelector = '.post-author',
+  optTagsListSelector = '.tags .list',
   optCloudClassCount = 5,
   optCloudClassPrefix = 'tag-size-',
   optAuthorListSelector = '.list .authors';
@@ -182,9 +183,9 @@ function generateTags(){
 
  const tagsParams = calculateTagsParams(allTags);
 
-
 /* [NEW] create variable for all links HTML code */
 const allTagsData = {tags: []};
+
 /* [NEW] START LOOP: for each tag in allTags: */
 for(let tag in allTags){
    /* [NEW] generate code of a link and add it to allTagsHTML */
@@ -216,18 +217,20 @@ function tagClickHandler(event){
   /* make a new constant "tag" and extract tag from the "href" constant */
   const tag = href.replace('#tag-', '');
 
+  removeClassActive('a.active[href^="#tag-"]');
+
   /* find all tag links with class active */
-  const activeTagLinks = document.querySelectorAll('a.active[href^="#tag-"]');
+  //const activeTagLinks = document.querySelectorAll('a.active[href^="#tag-"]');
 
   /* START LOOP: for each active tag link */
-  for (let activeTagLink of activeTagLinks) {
+  //for (let activeTagLink of activeTagLinks) {
 
     /* remove class active */
-    activeTagLink.classList.remove('active');
+    //activeTagLink.classList.remove('active');
   /* END LOOP: for each active tag link */
-}
+//}
   /* find all tag links with "href" attribute equal to the "href" constant */
-  const tagLinks = document.querySelectorAll('a.active[href^="#tag-"]');
+  const tagLinks = document.querySelectorAll('a[href="'+ href + '"]');
 
   /* START LOOP: for each found tag link */
   for (let tagLink of tagLinks) {
@@ -307,7 +310,6 @@ function generateAuthors() {
 }
 
 generateAuthors();
-
 
 function authorClickHandler(event) {
 

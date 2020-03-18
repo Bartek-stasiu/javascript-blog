@@ -107,4 +107,34 @@ body {
 .post-tags p {
   margin: 0 10px 0 0;
 }
+
+/* Tags */
+.tag-size-1 {
+  font-size: 15px;
+}
+
+.tag-size-3 {
+  font-size: 20px;
+}
+
+.tag-size-4 {
+  font-size: 30px;
+}
+
+.tag-size-5 {
+  font-size: 40px;
+}
+
+.sidebar .tags li {
+  display: inline;
+}
+
+.sidebar .tags a {
+  text-decoration: none;
+}
+
+/* Authors */
+.authors li {
+  margin-bottom: 15px;
+}
 /*# sourceMappingURL=style.css.map */
